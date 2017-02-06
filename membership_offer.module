@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains membership_offer.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function membership_offer_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the membership_offer module.
+    case 'help.page.membership_offer':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Membership Offers') . '</p>';
+      return $output;
+
+    default:
+  }
+}
