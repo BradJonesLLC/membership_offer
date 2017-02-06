@@ -1,0 +1,13 @@
+# Membership Offer menu items definition
+entity.membership_offer.collection:
+  title: 'Offer list'
+  route_name: entity.membership_offer.collection
+  description: 'List Membership Offers'
+  parent: membership.admin_membership
+  weight: 10
+entity.membership_offer.settings:
+  title: 'Offer Settings'
+  route_name: entity.membership_offer.field_ui_fields
+  description: 'Membership Offer settings'
+  parent: membership.admin_membership
+  weight: 10

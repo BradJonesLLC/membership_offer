@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains membership_offer.module..
+ * Contains membership_offer.module.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -21,4 +21,17 @@ function membership_offer_help($route_name, RouteMatchInterface $route_match) {
 
     default:
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function membership_offer_theme() {
+  $theme = [];
+  $theme['membership_offer'] = [
+    'render element' => 'elements',
+    'file' => 'membership_offer.page.inc',
+    'template' => 'membership_offer',
+  ];
+  return $theme;
 }

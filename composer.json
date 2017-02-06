@@ -12,6 +12,6 @@
         }
     ],
     "require": {
-        "drupal/membership": "*"
+        "drupal/membership_commerce": "*"
     }
 }
