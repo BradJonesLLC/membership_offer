@@ -4,4 +4,4 @@ description: Membership Offers
 core: 8.x
 package: Membership - Contrib
 dependencies:
-  - membership_commerce
+  - membership_commerce:membership_commerce
