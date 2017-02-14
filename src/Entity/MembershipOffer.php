@@ -283,7 +283,20 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    * @inheritDoc
    */
   public function getPrice() {
-    // @todo - Standard price approach? It's not a base field.
+    $fields = $this->getFieldDefinitions();
+    $price = [];
+    /** @var \Drupal\Core\Field\FieldDefinitionInterface $field */
+    foreach ($fields as $field) {
+      if ($field->getType() == 'commerce_price') {
+        $price[] = $field;
+      }
+    }
+    if (count($price) === 1) {
+      /** @var \Drupal\Core\Field\FieldItemListInterface $field */
+      $field = $this->get(reset($price)->getName());
+      // Return the first price value, could perhaps be multi-valued in the case of recurring pricing.
+      return $field->first()->toPrice();
+    }
     return NULL;
   }
 
@@ -306,6 +319,15 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    */
   public function getMembershipTypeId() {
     return $this->get('membership_type')->getString();
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function createMembership() {
+    $membership = parent::createMembership();
+    $membership->set('membership_offer', ['target_id' => $this->id()]);
+    return $membership;
   }
 
 }
