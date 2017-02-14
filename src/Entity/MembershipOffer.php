@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\membership\EventDispatcherTrait;
 use Drupal\membership_commerce\Entity\PurchasableMembershipBase;
 use Drupal\membership_offer\MembershipOfferInterface;
@@ -226,10 +227,40 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
       ->setDescription(t('The time that the entity was last edited.'));
 
     $fields['membership_type'] = BaseFieldDefinition::create('entity_reference')
+      ->setCardinality(1)
       ->setLabel(t('Membership Type'))
+      ->setRequired(TRUE)
       ->setDescription(t('The Membership type that is created as a result of redeeming this offer.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'membership_type')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+    $fields['order_item_type'] = BaseFieldDefinition::create('entity_reference')
+      ->setRequired(TRUE)
+      ->setCardinality(1)
+      ->setLabel(t('Order Item Type'))
+      ->setDescription(t('The Order Item type this membership offer creates.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'commerce_order_item_type')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+    $fields['stores'] = BaseFieldDefinition::create('entity_reference')
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setRequired(TRUE)
+      ->setLabel(t('Stores'))
+      ->setDescription(t('The Stores from which this membership offer may be purchased.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'commerce_store')
       ->setTranslatable(TRUE)
       ->setDisplayOptions('form', array(
         'type' => 'options_select',
@@ -245,8 +276,7 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    * @inheritDoc
    */
   public function getStores() {
-    // todo: implement
-    return [];
+    return $this->get('stores')->getValue();
   }
 
   /**
@@ -254,7 +284,7 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    */
   public function getPrice() {
     // todo: implement
-    return null;
+    return NULL;
   }
 
   /**

@@ -5,6 +5,7 @@
  * Contains membership_offer.module.
  */
 
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -34,4 +35,28 @@ function membership_offer_theme() {
     'template' => 'membership_offer',
   ];
   return $theme;
+}
+/**
+ * Add membership offer base field to the Membership entity.
+ *
+ * Implements hook_entity_base_field_info().
+ */
+function membership_offer_entity_base_field_info(\Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() == 'membership') {
+    $fields['membership_offer'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Membership Offer'))
+      ->setDescription(t('The offer this membership fulfills.'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'membership_offer')
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', array(
+        'type' => 'options_select',
+        'weight' => 1,
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setRequired(TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+  }
+  return $fields;
 }
