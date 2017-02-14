@@ -276,14 +276,14 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    * @inheritDoc
    */
   public function getStores() {
-    return $this->get('stores')->getValue();
+    return $this->get('stores')->referencedEntities();
   }
 
   /**
    * @inheritDoc
    */
   public function getPrice() {
-    // todo: implement
+    // @todo - Standard price approach? It's not a base field.
     return NULL;
   }
 
@@ -291,8 +291,7 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
    * @inheritDoc
    */
   public function getOrderItemTypeId() {
-    // todo: implement
-    return '';
+    return $this->get('order_item_type')->getString();
   }
 
   /**
