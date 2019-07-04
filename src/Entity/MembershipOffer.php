@@ -268,6 +268,16 @@ class MembershipOffer extends PurchasableMembershipBase implements MembershipOff
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+    $fields['path'] = BaseFieldDefinition::create('path')
+      ->setLabel(t('URL alias'))
+      ->setDescription(t('The product URL alias.'))
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'path',
+        'weight' => 30,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setComputed(TRUE);
 
     return $fields;
   }
